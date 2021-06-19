@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Grid,
   TextField,
@@ -7,8 +7,10 @@ import {
   Button,
   makeStyles,
   FormControlLabel,
+  Snackbar,
+  IconButton,
 } from "@material-ui/core";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import { GetData, SaveData } from "../Utility/ClientService";
 import Table from "../Common/Table";
 
@@ -36,21 +38,25 @@ function Clients() {
   const [checked, setChecked] = useState(false);
   const rows = GetData("clients");
   const [clientsData, setClientData] = useState(rows);
-  
-  const columns = useMemo(()=>[
-    {
-      label: "Client Name",
-      id: "clientName",
-    },
-    {
-      label: "Client Address",
-      id: "clientAddress",
-    },
-    {
-      label: "GST Number",
-      id: "GSTNumber",
-    },
-  ],[])
+  const [open, setOpen] = React.useState(false);
+
+  const columns = useMemo(
+    () => [
+      {
+        label: "Client Name",
+        id: "clientName",
+      },
+      {
+        label: "Client Address",
+        id: "clientAddress",
+      },
+      {
+        label: "GST Number",
+        id: "GSTNumber",
+      },
+    ],
+    []
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -66,31 +72,56 @@ function Clients() {
         SaveData("clients", rows);
 
         //reset form
-        values.clientName = "";
-        values.clientAddress = "";
-        values.GSTNumber = "";
-
+        setOpen(true);
         //added successfully
-        alert("record added successfully.");
+        //alert("record added successfully.");
       }
     },
   });
 
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
-
-  const table = useMemo(()=>{
-    return (
-      <Table columns={columns} rows={clientsData} />
-    )
-  },[clientsData, columns])
 
   return (
     <div className={classes.root}>
       <Typography variant="h6" gutterBottom>
         Manage Clients
       </Typography>
+      {open && (
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message="Client Details Added."
+          action={
+            <React.Fragment>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+              >
+                <Button color="secondary" size="small" onClick={handleClose}>
+                  Close
+                </Button>
+              </IconButton>
+            </React.Fragment>
+          }
+        />
+      )}
+
       <Grid container spacing={2}>
         <form className={classes.clientDetails} onSubmit={formik.handleSubmit}>
           <Grid item>
@@ -157,7 +188,7 @@ function Clients() {
         </form>
 
         <Grid item className="clientTable">
-          {table}
+          <Table columns={columns} rows={clientsData} />
         </Grid>
       </Grid>
     </div>
