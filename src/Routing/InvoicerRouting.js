@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import Clients from "../Components/Clients";
 import Transactions from "../Components/Transactions";
 import Accounts from "../Components/Accounts";
-
+import Home from '../Components/Home'
 const useStyles = makeStyles((theme) => ({
   main: {
     display: "flex",
@@ -29,14 +29,22 @@ const routes = [
   },
   {
     path: "/invoicer/transactions",
+    exact: true,
     sidebar: () => <div>Transactions</div>,
     main: () => <Transactions />,
   },
   {
     path: "/invoicer/accounts",
+    exact: true,
     sidebar: () => <div>Accounts</div>,
     main: () => <Accounts />,
   },
+  {
+    path: "*",
+    sidebar: () => <div>Home</div>,
+    main: () => <Home />,
+  },
+
 ];
 
 function InvoicerRouting() {
@@ -50,10 +58,10 @@ function InvoicerRouting() {
               <Link to="/invoicer/clients">Clients</Link>
             </li>
             <li>
-              <Link to="/invoicer/transactions">Transactions</Link>
+              <Link to="/invoicer/accounts">Accounts</Link>
             </li>
             <li>
-              <Link to="/invoicer/accounts">Accounts</Link>
+              <Link to="/invoicer/transactions">Transactions</Link>
             </li>
           </ul>
         </div>

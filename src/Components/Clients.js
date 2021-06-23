@@ -11,7 +11,7 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { useFormik } from "formik";
-import { GetData, SaveData } from "../Utility/ClientService";
+import { GetData, SaveData } from "../Utility/DataService";
 import Table from "../Common/Table";
 
 const useStyles = makeStyles((theme) => ({

@@ -8,6 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import BankDetails from "../Components/BankDetails";
 
 const useStyles = makeStyles({
   //   root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
   //   },
 });
 
-export default function StickyHeadTable({columns, rows}) {
+export default function StickyHeadTable({ columns, rows }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -51,11 +52,11 @@ export default function StickyHeadTable({columns, rows}) {
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                     {columns.map((column) => {
                       const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
+                      return column.id !== "bankDetails" ? (
+                        <TableCell key={column.id}>{value}</TableCell>
+                      ) : (
+                        <TableCell key={column.id}>
+                          <BankDetails data={row} />
                         </TableCell>
                       );
                     })}
@@ -66,7 +67,7 @@ export default function StickyHeadTable({columns, rows}) {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
+        rowsPerPageOptions={[5, 10, 50]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
