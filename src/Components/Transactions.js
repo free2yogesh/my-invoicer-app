@@ -1,12 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import {
   Grid,
   TextField,
   Typography,
-  Checkbox,
   Button,
   makeStyles,
-  FormControlLabel,
   Snackbar,
   IconButton,
   FormControl,
@@ -30,15 +28,16 @@ const useStyles = makeStyles((theme) => ({
   saveButton: {
     marginTop: "10px",
   },
-  root: {
-    flexGrow: 1,
-  },
   paper: {
     height: 140,
     width: 100,
   },
   control: {
     padding: theme.spacing(2),
+  },
+  selectControl: {
+    margin: theme.spacing(1),
+    minWidth: 150,
   },
 }));
 
@@ -135,7 +134,7 @@ function Transactions() {
           <Grid item xs={12}>
             <Grid container justify="center" spacing={2}>
               <Grid item xs={6}>
-                <FormControl variant="outlined" className={classes.formControl}>
+                <FormControl variant="outlined" className={classes.selectControl}>
                   <InputLabel id="demo-simple-select-outlined-label">
                     Client
                   </InputLabel>
@@ -156,7 +155,7 @@ function Transactions() {
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
-                <FormControl variant="outlined" className={classes.formControl}>
+                <FormControl variant="outlined" className={classes.selectControl}>
                   <InputLabel id="demo-simple-select-outlined-label">
                     From Account
                   </InputLabel>
