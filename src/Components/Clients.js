@@ -17,8 +17,7 @@ import Table from "../Common/Table";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: "20px",
-    width: "100%",
+    padding: "10px",
   },
   clientTable: {
     padding: "10px",
@@ -122,73 +121,85 @@ function Clients() {
         />
       )}
 
-      <Grid container spacing={2}>
-        <form className={classes.clientDetails} onSubmit={formik.handleSubmit}>
-          <Grid item>
-            <Grid item>
-              <TextField
-                required="true"
-                id="clientName"
-                variant="outlined"
-                size="small"
-                label="Client Name"
-                name="clientName"
-                onChange={formik.handleChange}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="clientAddress"
-                multiline
-                rows={4}
-                variant="outlined"
-                size="small"
-                label="Client Address"
-                name="clientAddress"
-                onChange={formik.handleChange}
-              />
-            </Grid>
-            <Grid item>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={handleChange}
-                    name="GSTApplicable"
-                    color="primary"
-                  />
-                }
-                label="GST Applicable"
-              />
-            </Grid>
-            {checked && (
-              <Grid item>
-                <TextField
-                  id="GSTNumber"
-                  variant="outlined"
-                  size="small"
-                  label="GST Number"
-                  name="GSTNumber"
-                  onChange={formik.handleChange}
-                />
-              </Grid>
-            )}
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.saveButton}
-                type="Submit"
-                disabled={!formik.isValid}
+      <Grid container className={classes.root} spacing={2}>
+        <Grid item xs={12}>
+          <Grid container justify="center" spacing={2}>
+            <Grid item xs={6}>
+              <form
+                className={classes.clientDetails}
+                onSubmit={formik.handleSubmit}
               >
-                Save
-              </Button>
+                  <Grid container justify="center" spacing={2}>
+                    <Grid item xs={12}>
+                      <TextField
+                        required="true"
+                        id="clientName"
+                        variant="outlined"
+                        size="small"
+                        label="Client Name"
+                        name="clientName"
+                        onChange={formik.handleChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        id="clientAddress"
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        size="small"
+                        label="Client Address"
+                        name="clientAddress"
+                        onChange={formik.handleChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={checked}
+                            onChange={handleChange}
+                            name="GSTApplicable"
+                            color="primary"
+                          />
+                        }
+                        label="GST Applicable"
+                      />
+                    </Grid>
+                    {checked && (
+                      <Grid item xs={12}>
+                        <TextField
+                          id="GSTNumber"
+                          variant="outlined"
+                          size="small"
+                          label="GST Number"
+                          name="GSTNumber"
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                    )}
+                  </Grid>
+                <Grid item xs={12}>
+                  <Grid container justify="center" spacing={2}>
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.saveButton}
+                        type="Submit"
+                        disabled={!formik.isValid}
+                      >
+                        Save
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </form>
+            </Grid>
+            <Grid item xs={6} className="clientTable">
+              <Table columns={columns} rows={clientsData} />
             </Grid>
           </Grid>
-        </form>
-
-        <Grid item className="clientTable">
-          <Table columns={columns} rows={clientsData} />
         </Grid>
       </Grid>
     </div>

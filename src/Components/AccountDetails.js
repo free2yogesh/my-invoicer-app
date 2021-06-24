@@ -1,7 +1,8 @@
 function AccountDetails(data) {
-  const { accountNumber, bankName, IFSCCode, bankBranch } = data.data;
+  const { accountName, accountNumber, bankName, IFSCCode, bankBranch } = data.data;
   return (
     <div>
+      <h3>Account Details - {accountName}</h3>
       <ul>
         <li>Account Number - {accountNumber}</li>
         <li>Bank Name - {bankName}</li>
