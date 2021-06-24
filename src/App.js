@@ -3,10 +3,10 @@ import React from "react";
 import InvoicerRouting from "./Routing/InvoicerRouting";
 import { makeStyles } from "@material-ui/core";
 
-
 const useStyles = makeStyles((theme) => ({
   main: {
-    display: "flex",
+    height:"100%",
+    width:"100%",
   },
 
 }));
@@ -16,9 +16,9 @@ export default function App() {
   return (
     <div class="f-container fixed-hf">
       <header>
-        <h2>Invoicer Application</h2>
+        <h2>Invoicer App</h2>
       </header>
-      <div class="main">
+      <div className={classes.main}>
         <InvoicerRouting />
       </div>
       <footer>
