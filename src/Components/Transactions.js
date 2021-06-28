@@ -50,6 +50,7 @@ function Transactions() {
   const [clientsData, setClientData] = useState(cltData);
   const [accountsData, setAccountsData] = useState(acData);
   const [open, setOpen] = React.useState(false);
+  const [inputList, setInputList] = useState([{ description: "", amount: "" }]);
 
   const formik = useFormik({
     initialValues: {
@@ -73,6 +74,23 @@ function Transactions() {
       return;
     }
     setOpen(false);
+  };
+
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...inputList];
+    list[index][name] = value;
+    setInputList(list);
+  };
+
+  const handleRemoveClick = (index) => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  };
+
+  const handleAddClick = () => {
+    setInputList([...inputList, { description: "", amount: "" }]);
   };
 
   return (
@@ -106,7 +124,7 @@ function Transactions() {
           }
         />
       )}
-      <Grid container className={classes.root} spacing={2}>
+      <Grid container className={classes.root} justify="center" spacing={2}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={2}>
             <Grid item xs={6}>
@@ -131,68 +149,112 @@ function Transactions() {
               />
             </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <Grid container justify="center" spacing={2}>
-              <Grid item xs={6}>
-                <FormControl variant="outlined" className={classes.selectControl}>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Client
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    onChange={formik.handleChange}
-                    label="Client"
-                  >
-                    {clientsData.map((e, key) => {
-                      return (
-                        <MenuItem key={key} value={e.clientName}>
-                          {e.clientName}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <FormControl variant="outlined" className={classes.selectControl}>
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    From Account
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    //value={account}
-                    onChange={formik.handleChange}
-                    label="From Account"
-                  >
-                    {accountsData.map((e, key) => {
-                      return (
-                        <MenuItem key={key} value={e.accountName}>
-                          {e.accountName}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-              </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container justify="center" spacing={2}>
+            <Grid item xs={6}>
+              <FormControl variant="outlined" className={classes.selectControl}>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Client
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  onChange={formik.handleChange}
+                  label="Client"
+                >
+                  {clientsData.map((e, key) => {
+                    return (
+                      <MenuItem key={key} value={e.clientName}>
+                        {e.clientName}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
             </Grid>
+            <Grid item xs={6}>
+              <FormControl variant="outlined" className={classes.selectControl}>
+                <InputLabel id="demo-simple-select-outlined-label">
+                  From Account
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  //value={account}
+                  onChange={formik.handleChange}
+                  label="From Account"
+                >
+                  {accountsData.map((e, key) => {
+                    return (
+                      <MenuItem key={key} value={e.accountName}>
+                        {e.accountName}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {inputList.map((x, i) => {
+          return (
             <Grid item xs={12}>
               <Grid container justify="center" spacing={2}>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.saveButton}
-                    type="Submit"
-                    disabled={!formik.isValid}
-                  >
-                    Save
-                  </Button>
+                <Grid item xs={3}>
+                  <TextField
+                    id="description"
+                    variant="outlined"
+                    size="small"
+                    label="Description"
+                    name="description"
+                    onChange={(e) => handleInputChange(e, i)}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    id="amount"
+                    variant="outlined"
+                    size="small"
+                    label="Amount"
+                    name="amount"
+                    onChange={(e) => handleInputChange(e, i)}
+                  />
+                </Grid>
+                <Grid item xs={1}>
+                  <div className="btn-box">
+                    {inputList.length !== 1 && (
+                      <button
+                        className="mr10"
+                        onClick={() => handleRemoveClick(i)}
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+                </Grid>
+                <Grid item xs={1}>
+                  <div className="btn-box">
+                    {inputList.length - 1 === i && (
+                      <button onClick={handleAddClick}>Add</button>
+                    )}
+                  </div>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          );
+        })}
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.saveButton}
+            type="Submit"
+            disabled={!formik.isValid}
+          >
+            Save
+          </Button>
         </Grid>
       </Grid>
     </form>
